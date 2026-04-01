@@ -2,20 +2,20 @@
 """Main entry point for running MIA24 vs DietAI24 evaluation.
 
 Usage:
-    # Run both methods on all 100 samples
+    # Run both methods with Claude (default)
     python run_evaluation.py
 
-    # Run only DietAI24 baseline
-    python run_evaluation.py --methods DietAI24
+    # Run both methods with OpenAI
+    python run_evaluation.py --provider openai
 
-    # Run only MIA24 proposed method
-    python run_evaluation.py --methods MIA24
+    # Run only DietAI24 baseline with Claude
+    python run_evaluation.py --methods DietAI24 --provider claude
 
     # Quick test with 3 samples
-    python run_evaluation.py --max-samples 3
+    python run_evaluation.py --max-samples 3 --provider claude
 
-    # Run both methods on 5 samples
-    python run_evaluation.py --max-samples 5 --methods DietAI24 MIA24
+    # Run both methods on 5 samples with OpenAI
+    python run_evaluation.py --max-samples 5 --methods DietAI24 MIA24 --provider openai
 """
 
 import argparse
@@ -34,6 +34,12 @@ def main() -> None:
         default=["DietAI24", "MIA24"],
         choices=["DietAI24", "MIA24"],
         help="Methods to evaluate (default: both)",
+    )
+    parser.add_argument(
+        "--provider",
+        default="claude",
+        choices=["openai", "claude"],
+        help="LLM provider for vision/chat (default: claude)",
     )
     parser.add_argument(
         "--max-samples",
@@ -55,7 +61,11 @@ def main() -> None:
         datefmt="%H:%M:%S",
     )
 
-    run_evaluation(methods=args.methods, max_samples=args.max_samples)
+    run_evaluation(
+        methods=args.methods,
+        max_samples=args.max_samples,
+        provider=args.provider,
+    )
 
 
 if __name__ == "__main__":

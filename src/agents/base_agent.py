@@ -1,4 +1,7 @@
-"""Base agent class with shared OpenAI and RAG utilities."""
+"""Base agent class with shared LLM and RAG utilities.
+
+Supports both OpenAI and Anthropic (Claude) providers for vision and chat.
+"""
 
 import base64
 import json
@@ -8,7 +11,13 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from openai import OpenAI, RateLimitError, APITimeoutError, APIConnectionError
+import anthropic
+from openai import (
+    APIConnectionError as OpenAIConnectionError,
+    APITimeoutError as OpenAITimeoutError,
+    OpenAI,
+    RateLimitError as OpenAIRateLimitError,
+)
 
 from src.config import Settings
 from src.nutrition import NutritionCalculator
@@ -30,26 +39,43 @@ class BaseAgent:
         self._settings = settings
         self._retriever = retriever
         self._calculator = calculator
-        self._client = OpenAI(api_key=settings.openai_api_key)
+
+        if settings.provider == "claude":
+            self._anthropic = anthropic.Anthropic(
+                api_key=settings.claude_api_key
+            )
+        else:
+            self._openai = OpenAI(api_key=settings.openai_api_key)
 
     def _retry_api_call(self, fn, max_retries: int = 3):
-        """Retry an OpenAI API call with exponential backoff."""
+        """Retry an API call with exponential backoff."""
+        retry_errors = (
+            OpenAIRateLimitError,
+            OpenAITimeoutError,
+            OpenAIConnectionError,
+            anthropic.RateLimitError,
+            anthropic.APITimeoutError,
+            anthropic.APIConnectionError,
+        )
         for attempt in range(max_retries):
             try:
                 return fn()
-            except (RateLimitError, APITimeoutError, APIConnectionError) as e:
+            except retry_errors as e:
                 if attempt == max_retries - 1:
                     raise
                 wait = 2 ** (attempt + 1)
-                logger.warning("API error (attempt %d/%d), retrying in %ds: %s",
-                               attempt + 1, max_retries, wait, e)
+                logger.warning(
+                    "API error (attempt %d/%d), retrying in %ds: %s",
+                    attempt + 1, max_retries, wait, e,
+                )
                 time.sleep(wait)
 
     def _encode_image(self, image_path: Path) -> str:
-        """Encode a local image to base64 data URI."""
+        """Encode a local image to base64 string."""
         with open(image_path, "rb") as f:
-            data = base64.b64encode(f.read()).decode("utf-8")
-        return f"data:image/png;base64,{data}"
+            return base64.b64encode(f.read()).decode("utf-8")
+
+    # ── Vision calls ────────────────────────────────────────────
 
     def _call_vision(
         self,
@@ -58,11 +84,27 @@ class BaseAgent:
         system: str = DietAI24Prompts.SYSTEM,
         max_tokens: int = 1024,
     ) -> str:
-        """Call OpenAI vision model with an image."""
-        image_uri = self._encode_image(image_path)
+        """Call vision model with an image (dispatches by provider)."""
+        if self._settings.provider == "claude":
+            return self._call_vision_claude(
+                prompt, image_path, system, max_tokens
+            )
+        return self._call_vision_openai(
+            prompt, image_path, system, max_tokens
+        )
+
+    def _call_vision_openai(
+        self,
+        prompt: str,
+        image_path: Path,
+        system: str,
+        max_tokens: int,
+    ) -> str:
+        image_b64 = self._encode_image(image_path)
+        image_uri = f"data:image/png;base64,{image_b64}"
 
         def _api_call():
-            return self._client.chat.completions.create(
+            return self._openai.chat.completions.create(
                 model=self._settings.vision_model,
                 temperature=0,
                 max_tokens=max_tokens,
@@ -74,7 +116,10 @@ class BaseAgent:
                             {"type": "text", "text": prompt},
                             {
                                 "type": "image_url",
-                                "image_url": {"url": image_uri, "detail": "high"},
+                                "image_url": {
+                                    "url": image_uri,
+                                    "detail": "high",
+                                },
                             },
                         ],
                     },
@@ -85,16 +130,61 @@ class BaseAgent:
         content = response.choices[0].message.content
         return (content or "").strip()
 
+    def _call_vision_claude(
+        self,
+        prompt: str,
+        image_path: Path,
+        system: str,
+        max_tokens: int,
+    ) -> str:
+        image_b64 = self._encode_image(image_path)
+
+        def _api_call():
+            return self._anthropic.messages.create(
+                model=self._settings.vision_model,
+                max_tokens=max_tokens,
+                temperature=0,
+                system=system,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/png",
+                                    "data": image_b64,
+                                },
+                            },
+                            {"type": "text", "text": prompt},
+                        ],
+                    },
+                ],
+            )
+
+        response = self._retry_api_call(_api_call)
+        content = response.content[0].text
+        return (content or "").strip()
+
+    # ── Chat calls ──────────────────────────────────────────────
+
     def _call_chat(
         self,
         prompt: str,
         system: str = DietAI24Prompts.SYSTEM,
         max_tokens: int = 1024,
     ) -> str:
-        """Call OpenAI chat model (text only)."""
+        """Call chat model, text only (dispatches by provider)."""
+        if self._settings.provider == "claude":
+            return self._call_chat_claude(prompt, system, max_tokens)
+        return self._call_chat_openai(prompt, system, max_tokens)
 
+    def _call_chat_openai(
+        self, prompt: str, system: str, max_tokens: int
+    ) -> str:
         def _api_call():
-            return self._client.chat.completions.create(
+            return self._openai.chat.completions.create(
                 model=self._settings.chat_model,
                 temperature=0,
                 max_tokens=max_tokens,
@@ -107,6 +197,24 @@ class BaseAgent:
         response = self._retry_api_call(_api_call)
         content = response.choices[0].message.content
         return (content or "").strip()
+
+    def _call_chat_claude(
+        self, prompt: str, system: str, max_tokens: int
+    ) -> str:
+        def _api_call():
+            return self._anthropic.messages.create(
+                model=self._settings.chat_model,
+                max_tokens=max_tokens,
+                temperature=0,
+                system=system,
+                messages=[{"role": "user", "content": prompt}],
+            )
+
+        response = self._retry_api_call(_api_call)
+        content = response.content[0].text
+        return (content or "").strip()
+
+    # ── Pipeline steps ──────────────────────────────────────────
 
     def _describe_food(self, image_path: Path) -> str:
         """Step 1: Describe the food in the image."""
@@ -151,16 +259,11 @@ class BaseAgent:
     def _select_food_codes(
         self, candidates: List[Dict], image_path: Path
     ) -> List[str]:
-        """Step 4: Select FNDDS food codes using vision model + candidates.
-
-        The model sees the food image and the candidate code list, then
-        picks the codes that best match the visible food(s).
-        """
+        """Step 4: Select FNDDS food codes using vision model + candidates."""
         if not candidates:
             logger.warning("No candidates for food code selection")
             return []
 
-        # Format candidates
         candidate_text = "\n".join(
             f"Food code: {c['food_code']}  Description: {c['description']}"
             for c in candidates
@@ -171,12 +274,14 @@ class BaseAgent:
         )
         response = self._call_vision(prompt, image_path)
 
-        # Parse comma-separated food codes
         raw_codes = re.findall(r"\d{8}", response)
         valid_codes = [
             code for code in raw_codes if self._calculator.is_valid_code(code)
         ]
-        logger.debug("Selected %d valid food codes from %d raw", len(valid_codes), len(raw_codes))
+        logger.debug(
+            "Selected %d valid food codes from %d raw",
+            len(valid_codes), len(raw_codes),
+        )
         return valid_codes
 
     def _estimate_weight(
@@ -212,9 +317,7 @@ class BaseAgent:
     def _parse_weight_response(self, response: str) -> Optional[float]:
         """Parse weight from JSON response string."""
         try:
-            # Try direct JSON parse
             cleaned = response.strip()
-            # Remove markdown code fences if present
             cleaned = re.sub(r"```json\s*", "", cleaned)
             cleaned = re.sub(r"```\s*$", "", cleaned)
             cleaned = cleaned.strip()
@@ -226,12 +329,13 @@ class BaseAgent:
         except (json.JSONDecodeError, ValueError, TypeError):
             pass
 
-        # Fallback: extract first number after "weight" keyword
-        match = re.search(r"weight[_\s]*(?:grams)?[\":\s]*(\d+(?:\.\d+)?)", response, re.IGNORECASE)
+        match = re.search(
+            r"weight[_\s]*(?:grams)?[\":\s]*(\d+(?:\.\d+)?)",
+            response, re.IGNORECASE,
+        )
         if match:
             return float(match.group(1))
 
-        # Last resort: find any reasonable number
         numbers = re.findall(r"\b(\d{2,4}(?:\.\d+)?)\b", response)
         if numbers:
             return float(numbers[0])
@@ -239,12 +343,5 @@ class BaseAgent:
         return None
 
     def estimate(self, image_path: Path) -> Dict[str, Any]:
-        """Run the full estimation pipeline on a single image.
-
-        Returns dict with:
-            - food_items: list of {food_code, food_name, weight_grams}
-            - predicted: {mass_g, calories, fat_g, carb_g, protein_g}
-            - description: food description text
-            - ingredients: extracted ingredients list
-        """
+        """Run the full estimation pipeline on a single image."""
         raise NotImplementedError("Subclasses must implement estimate()")

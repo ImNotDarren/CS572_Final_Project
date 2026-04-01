@@ -1,0 +1,115 @@
+\begin{thebibliography}{10}
+
+\bibitem{thompson1994dietary}
+Frances~E. Thompson and Tim Byers.
+\newblock Dietary assessment resource manual.
+\newblock {\em The Journal of Nutrition}, 124(11 Suppl):2245S--2317S, 1994.
+
+\bibitem{conway2003effectiveness}
+Joan~M. Conway, Linda~A. Ingwersen, Bryan~T. Vinyard, and Alanna~J. Moshfegh.
+\newblock Effectiveness of the {US} department of agriculture 5-step
+  multiple-pass method in assessing food intake in obese and nonobese women.
+\newblock {\em American Journal of Clinical Nutrition}, 77(5):1171--1178, 2003.
+
+\bibitem{subar2012asa24}
+Amy~F. Subar, Sharon~I. Kirkpatrick, Beth Mittl, Thea~P. Zimmerman, Frances~E.
+  Thompson, Cynthia Bingley, Gordon Willis, Najat~G. Islam, Tom Baranowski,
+  Suzanne McNutt, and Nancy Potischman.
+\newblock The automated self-administered 24-hour dietary recall ({ASA24}): A
+  resource for researchers, clinicians, and educators from the national cancer
+  institute.
+\newblock {\em Journal of the Academy of Nutrition and Dietetics},
+  112(8):1134--1137, 2012.
+
+\bibitem{kipnis2003structure}
+Victor Kipnis, Amy~F. Subar, Douglas Midthune, Laurence~S. Freedman, Rachel
+  Ballard-Barbash, Richard~P. Troiano, Sheila Bingham, Dale~A. Schoeller,
+  Arthur Schatzkin, and Raymond~J. Carroll.
+\newblock Structure of dietary measurement error: Results of the {OPEN}
+  biomarker study.
+\newblock {\em American Journal of Epidemiology}, 158(1):14--21, 2003.
+
+\bibitem{thompson2010need}
+Frances~E. Thompson, Amy~F. Subar, Catherine~M. Loria, Jill~L. Reedy, and Tom
+  Baranowski.
+\newblock Need for technological innovation in dietary assessment.
+\newblock {\em Journal of the American Dietetic Association}, 110(1):48--51,
+  2010.
+
+\bibitem{zhu2010mobile}
+Fengqing Zhu, Marc Bosch, Insoo Woo, SungYe Kim, Carol~J. Boushey, David~S.
+  Ebert, and Edward~J. Delp.
+\newblock The use of mobile devices in aiding dietary assessment and
+  evaluation.
+\newblock {\em IEEE Journal of Selected Topics in Signal Processing},
+  4(4):756--766, 2010.
+
+\bibitem{boushey2017new}
+Carol~J. Boushey, Melissa Spoden, Fengqing~M. Zhu, Edward~J. Delp, and
+  Deborah~A. Kerr.
+\newblock New mobile methods for dietary assessment: Review of image-assisted
+  and image-based dietary assessment methods.
+\newblock {\em Proceedings of the Nutrition Society}, 76(3):283--294, 2017.
+
+\bibitem{dalakleidi2022applying}
+Kalliopi~V. Dalakleidi, Marina Papadelli, Ioannis Kapolos, and Konstantinos
+  Papadimitriou.
+\newblock Applying image-based food-recognition systems on dietary assessment:
+  A systematic review.
+\newblock {\em Advances in Nutrition}, 13(6):2590--2619, 2022.
+
+\bibitem{shonkoff2023ai}
+Eleanor Shonkoff, Kelly Copeland~Cara, Xuechen Pei, Mei Chung, Shreyas Kamath,
+  Karen Panetta, and Erin Hennessy.
+\newblock {AI}-based digital image dietary assessment methods compared to
+  humans and ground truth: A systematic review.
+\newblock {\em Annals of Medicine}, 55(2):2273497, 2023.
+
+\bibitem{tahir2021comprehensive}
+Ghalib~Ahmed Tahir and Chu~Kiong Loo.
+\newblock A comprehensive survey of image-based food recognition and volume
+  estimation methods for dietary assessment.
+\newblock {\em Healthcare}, 9(12):1676, 2021.
+
+\bibitem{yan2025dietai24}
+Runze Yan, Hanqi Luo, Jiaying Lu, Darren Liu, Hannah Posluszny, Mehak~Preet
+  Dhaliwal, Janice MacLeod, Yao Qin, Carl Yang, Terry~J. Hartman, et~al.
+\newblock {DietAI24} as a framework for comprehensive nutrition estimation
+  using multimodal large language models.
+\newblock {\em Communications Medicine}, 5(1):458, 2025.
+
+\bibitem{rhodes2023fndds}
+Donna~G. Rhodes, Suzanne Morton, Rebecca Myrowitz, and Alanna~J. Moshfegh.
+\newblock Food and nutrient database for dietary studies 2019--2020: An
+  application database for national dietary surveillance.
+\newblock {\em Journal of Food Composition and Analysis}, 123:105547, 2023.
+
+\bibitem{lo2020image}
+Frank Po~Wen Lo, Yingnan Sun, Jianing Qiu, and Benny Lo.
+\newblock Image-based food classification and volume estimation for dietary
+  assessment: A review.
+\newblock {\em IEEE Journal of Biomedical and Health Informatics},
+  24(7):1926--1939, 2020.
+
+\bibitem{thames2021nutrition5k}
+Quin Thames, Arjun Karpur, Wade Norris, Fangting Xia, Liviu Panait, Tobias
+  Weyand, and Jack Sim.
+\newblock {Nutrition5k}: Towards automatic nutritional understanding of generic
+  food.
+\newblock In {\em Proceedings of the IEEE/CVF Conference on Computer Vision and
+  Pattern Recognition (CVPR)}, 2021.
+
+\bibitem{bodner2006fndds}
+Janice Bodner-Montville, Jaspreet K.~C. Ahuja, Linda~A. Ingwersen, Etta~Susanne
+  Haggerty, Cecilia~Wilkinson Enns, and Betty~P. Perloff.
+\newblock {USDA} food and nutrient database for dietary studies: Released on
+  the web.
+\newblock {\em Journal of Food Composition and Analysis}, 19:S100--S107, 2006.
+
+\bibitem{ahuja2013usda}
+Jaspreet K.~C. Ahuja, Alanna~J. Moshfegh, Joanne~M. Holden, and Ellen Harris.
+\newblock {USDA} food and nutrient databases provide the infrastructure for
+  food and nutrition research, policy, and practice.
+\newblock {\em The Journal of Nutrition}, 143(2):241S--249S, 2013.
+
+\end{thebibliography}

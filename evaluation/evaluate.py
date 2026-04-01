@@ -197,19 +197,27 @@ def _run_single_method(
 def run_evaluation(
     methods: Optional[List[str]] = None,
     max_samples: Optional[int] = None,
+    provider: str = "claude",
 ) -> None:
     """Run full evaluation pipeline.
 
     Args:
         methods: List of method names to run. Default: ["DietAI24", "MIA24"]
         max_samples: Limit number of samples (for testing). None = all.
+        provider: LLM provider — "openai" or "claude".
     """
     if methods is None:
         methods = ["DietAI24", "MIA24"]
 
     # Initialize shared components
-    settings = Settings()
-    settings.results_dir.mkdir(parents=True, exist_ok=True)
+    settings = Settings.for_provider(provider)
+    output_dir = settings.provider_results_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    logger.info(
+        "Provider: %s  |  Vision: %s  |  Chat: %s",
+        provider, settings.vision_model, settings.chat_model,
+    )
 
     logger.info("Initializing ChromaDB retriever...")
     retriever = ChromaRetriever(settings)
@@ -236,7 +244,7 @@ def run_evaluation(
 
         # Create CSV with header before processing starts
         per_sample_path = (
-            settings.results_dir / f"{method_name}_results_{timestamp}.csv"
+            output_dir / f"{method_name}_results_{timestamp}.csv"
         )
         _init_per_sample_csv(per_sample_path)
         logger.info("Results will be written incrementally to %s", per_sample_path)
@@ -271,7 +279,7 @@ def run_evaluation(
             )
 
     # Save summary
-    summary_path = settings.results_dir / f"summary_mae_{timestamp}.csv"
+    summary_path = output_dir / f"summary_mae_{timestamp}.csv"
     _save_summary_csv(summary_mae, summary_path)
 
     # Print final comparison
@@ -289,4 +297,4 @@ def run_evaluation(
             row += f"{summary_mae[method][key]:>15.2f}"
         print(row)
     print("=" * 60)
-    print(f"\nResults saved to: {settings.results_dir}")
+    print(f"\nResults saved to: {output_dir}")

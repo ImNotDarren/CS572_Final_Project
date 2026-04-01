@@ -10,7 +10,7 @@ MIA24 (Multimodal Intelligent Agent-based 24-hour dietary assessment tool) intro
 
 ## Results
 
-### Main Results (70 Nutrition5k test samples)
+### OpenAI Results (GPT-4.1-mini, 70 Nutrition5k test samples)
 
 | Metric | DietAI24 (Baseline) | MIA24 (Proposed) | Improvement |
 |--------|---------------------|-------------------|-------------|
@@ -20,7 +20,29 @@ MIA24 (Multimodal Intelligent Agent-based 24-hour dietary assessment tool) intro
 | Carbohydrate (g) | 12.61 | **9.91** | 21.4% |
 | Protein (g) | 10.37 | **7.94** | 23.4% |
 
-All values are Mean Absolute Error (MAE) — lower is better. MIA24 outperforms DietAI24 on all 5 metrics, with the largest improvements on carbohydrate (21.4%) and protein (23.4%).
+### Claude Results (Claude Sonnet 4.6, 70 Nutrition5k test samples)
+
+| Metric | DietAI24 (Baseline) | MIA24 (Proposed) | Improvement |
+|--------|---------------------|-------------------|-------------|
+| Mass (g) | 142.13 | **112.37** | 20.9% |
+| Energy (kcal) | 219.91 | **155.30** | 29.4% |
+| Fat (g) | 13.07 | **9.58** | 26.7% |
+| Carbohydrate (g) | 24.11 | **13.61** | 43.6% |
+| Protein (g) | 12.08 | **9.58** | 20.7% |
+
+All values are Mean Absolute Error (MAE) — lower is better. MIA24 outperforms DietAI24 on all 5 metrics across both providers. The clarification stage yields larger relative improvements with Claude (20–44%) compared to OpenAI (8–23%).
+
+### Cross-Provider Comparison
+
+| Metric | OpenAI DietAI24 | OpenAI MIA24 | Claude DietAI24 | Claude MIA24 |
+|--------|-----------------|--------------|-----------------|--------------|
+| Mass (g) | 103.71 | **90.40** | 142.13 | 112.37 |
+| Energy (kcal) | 112.29 | **103.25** | 219.91 | 155.30 |
+| Fat (g) | 6.87 | **6.30** | 13.07 | 9.58 |
+| Carbohydrate (g) | 12.61 | **9.91** | 24.11 | 13.61 |
+| Protein (g) | 10.37 | **7.94** | 12.08 | 9.58 |
+
+GPT-4.1-mini achieves lower absolute MAE, but Claude Sonnet 4.6 shows larger relative improvements from the clarification stage, suggesting MIA24's clarification mechanism provides greater value when the base model has higher initial error.
 
 ### Comparison with DietAI24 Paper
 
@@ -38,18 +60,27 @@ Differences are expected due to: (1) different test subsets (70 vs 1000 samples)
 
 ### Detailed Statistics
 
-| Statistic | DietAI24 | MIA24 |
-|-----------|----------|-------|
-| Avg food codes per dish | 1.31 | 2.11 |
-| Samples with errors | 3 | 0 |
-| Total samples | 70 | 70 |
+| Statistic | OpenAI DietAI24 | OpenAI MIA24 | Claude DietAI24 | Claude MIA24 |
+|-----------|-----------------|--------------|-----------------|--------------|
+| Avg food codes per dish | 1.31 | 2.11 | 1.80 | 2.39 |
+| Samples with errors | 3 | 0 | 1 | 2 |
+| Total samples | 70 | 70 | 70 | 70 |
 
 ### Output Files
 
-Results are saved in `results/` as timestamped CSVs:
-- `DietAI24_results_TIMESTAMP.csv` — Per-sample predictions and absolute errors
-- `MIA24_results_TIMESTAMP.csv` — Per-sample predictions and absolute errors
-- `summary_mae_TIMESTAMP.csv` — MAE summary across methods
+Results are saved in provider-specific subdirectories under `results/`:
+
+```
+results/
+├── open_ai_results/           # GPT-4.1-mini results
+│   ├── DietAI24_results_TIMESTAMP.csv
+│   ├── MIA24_results_TIMESTAMP.csv
+│   └── summary_mae_TIMESTAMP.csv
+└── claude_results/            # Claude Sonnet 4.6 results
+    ├── DietAI24_results_TIMESTAMP.csv
+    ├── MIA24_results_TIMESTAMP.csv
+    └── summary_mae_TIMESTAMP.csv
+```
 
 CSV columns: `dish_id`, `method`, ground truth (`gt_*`), predictions (`pred_*`), absolute errors (`ae_*`), `num_food_codes`, `food_codes`, `description`, `error`.
 
@@ -57,15 +88,15 @@ CSV columns: `dish_id`, `method`, ground truth (`gt_*`), predictions (`pred_*`),
 
 ```
 MIA24/
-├── run_evaluation.py              # Main entry point
+├── run_evaluation.py              # Main entry point (--provider openai|claude)
 ├── .env                           # API keys (OPENAI_API_KEY, CLAUDE_API_KEY, CHROMA_URL)
 ├── src/
 │   ├── config/
-│   │   └── settings.py            # Environment config & paths
+│   │   └── settings.py            # Environment config, provider models, paths
 │   ├── vector_store/
 │   │   └── chroma_client.py       # ChromaDB v2 HTTP client for FNDDS retrieval
 │   ├── agents/
-│   │   ├── base_agent.py          # Shared vision/chat + RAG utilities
+│   │   ├── base_agent.py          # Multi-provider vision/chat + RAG utilities
 │   │   ├── dietai24.py            # Baseline: single-pass RAG pipeline
 │   │   └── mia24.py               # Proposed: clarification + query expansion
 │   ├── prompts/
@@ -76,7 +107,7 @@ MIA24/
 │   └── data_processing/
 │       └── nutrition5k.py         # Nutrition5k dataset loader
 ├── evaluation/
-│   ├── evaluate.py                # Evaluation runner (both methods)
+│   ├── evaluate.py                # Evaluation runner (both methods, multi-provider)
 │   └── metrics.py                 # MAE computation
 ├── data/
 │   ├── fndds/                     # FNDDS reference data
@@ -90,7 +121,9 @@ MIA24/
 │       ├── selected_dish_ids.txt
 │       ├── splits/
 │       └── images/                # Overhead RGB images
-├── results/                       # CSV evaluation outputs
+├── results/
+│   ├── open_ai_results/           # GPT-4.1-mini evaluation outputs
+│   └── claude_results/            # Claude Sonnet 4.6 evaluation outputs
 └── docs/
     ├── CS572_Proposal.pdf
     └── s43856-025-01159-0.pdf     # DietAI24 paper
@@ -116,8 +149,8 @@ CLAUDE_API_KEY=your-anthropic-api-key
 CHROMA_URL=https://your-chromadb-server/chroma
 ```
 
-- `OPENAI_API_KEY` — Used for text embeddings (`text-embedding-3-large`)
-- `CLAUDE_API_KEY` — Used for vision and chat (configurable in `settings.py`)
+- `OPENAI_API_KEY` — Used for text embeddings (`text-embedding-3-large`) and GPT-4.1-mini vision/chat
+- `CLAUDE_API_KEY` — Used for Claude Sonnet 4.6 vision/chat
 - `CHROMA_URL` — Remote ChromaDB v2 server with pre-populated `fndds` collection
 
 ### 3. FNDDS Reference Data
@@ -161,14 +194,17 @@ done < selected_dish_ids.txt
 ```bash
 conda activate mia24
 
-# Run both methods on all available samples
+# Run both methods with Claude Sonnet 4.6 (default)
 python run_evaluation.py
 
-# Run only the baseline
-python run_evaluation.py --methods DietAI24
+# Run both methods with OpenAI GPT-4.1-mini
+python run_evaluation.py --provider openai
 
-# Run only the proposed method
-python run_evaluation.py --methods MIA24
+# Run only the baseline with Claude
+python run_evaluation.py --methods DietAI24 --provider claude
+
+# Run only the proposed method with OpenAI
+python run_evaluation.py --methods MIA24 --provider openai
 
 # Quick test with 3 samples
 python run_evaluation.py --max-samples 3
@@ -204,6 +240,17 @@ Adds a clarification stage between image understanding and retrieval:
 6. **Select food codes** — Same vision-based selection as baseline
 7-8. Estimate weight, calculate nutrition — Same as baseline
 
+### Multi-Provider Support
+
+The pipeline supports two LLM providers for vision and chat inference:
+
+| Provider | Vision/Chat Model | Embedding Model |
+|----------|------------------|-----------------|
+| `openai` | GPT-4.1-mini | text-embedding-3-large |
+| `claude` | Claude Sonnet 4.6 | text-embedding-3-large |
+
+Embeddings always use OpenAI's `text-embedding-3-large` regardless of provider, since the ChromaDB FNDDS collection was indexed with these embeddings.
+
 ### Simulated User
 
 During evaluation, a prompted LLM simulates user responses to clarification questions. It receives:
@@ -231,8 +278,8 @@ $$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| openai | 2.30+ | Text embeddings (text-embedding-3-large) |
-| anthropic | 0.49+ | Claude vision & chat |
+| openai | 2.30+ | Text embeddings + GPT-4.1-mini vision/chat |
+| anthropic | 0.49+ | Claude Sonnet 4.6 vision/chat |
 | httpx | 0.28+ | ChromaDB HTTP client |
 | python-dotenv | 1.2+ | Load .env configuration |
 | pandas | 3.0+ | Data processing |
@@ -244,10 +291,12 @@ $$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 ## Key Configuration
 
 Edit `src/config/settings.py` to change:
-- `vision_model` / `chat_model` — Model for vision and chat inference
+- `PROVIDER_MODELS` — Model mappings per provider
 - `embedding_model` — Embedding model (default: `text-embedding-3-large`)
 - `rag_top_k` — Number of RAG results per query (default: 8)
 - `num_query_variations` — Number of search queries generated (default: 5)
+
+Or pass `--provider openai|claude` to `run_evaluation.py` to select the LLM provider at runtime.
 
 ## References
 

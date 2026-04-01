@@ -1,0 +1,238 @@
+\documentclass[11pt]{article}
+
+% ── Packages ────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{float}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black,
+}
+
+% ── Title ───────────────────────────────────────────────────
+\title{MIA24: A Retrieval-Based Agent for Accurate\\Automated 24-Hour Recall}
+\author{Darren Liu \and Yuzhu Mao}
+\date{CS572 Information Retrieval --- Emory University, Spring 2026}
+
+\begin{document}
+\maketitle
+
+% ════════════════════════════════════════════════════════════
+\begin{abstract}
+Accurate dietary assessment is critical for nutrition research, yet automated image-based systems often fail on visually ambiguous or composite dishes because a single photograph cannot convey hidden ingredients, cooking methods, or precise portion sizes.
+We present MIA24, a retrieval-augmented pipeline that inserts an interactive \emph{clarification stage} between initial image understanding and nutrition database retrieval.
+Given a food image, MIA24 first generates targeted clarification questions about uncertain meal aspects, obtains user responses, and then expands and refines the retrieval query before searching the USDA Food and Nutrient Database for Dietary Studies (FNDDS).
+Evaluated on 70 Nutrition5k test images with GPT-4.1-mini as the underlying vision--language model, MIA24 reduces mean absolute error relative to the DietAI24 baseline by 12.8\% for mass, 8.1\% for energy, 8.3\% for fat, 21.4\% for carbohydrate, and 23.4\% for protein, demonstrating that lightweight interactive query expansion can meaningfully improve retrieval-based nutrition estimation.
+\end{abstract}
+
+% ════════════════════════════════════════════════════════════
+\section{Introduction}
+\label{sec:intro}
+
+Accurate dietary assessment is fundamental to nutrition research and clinical practice, and the 24-hour dietary recall (24HR) remains one of the most widely used methods for capturing daily food intake~\citep{thompson1994dietary,conway2003effectiveness}.
+However, manual 24HR administration is resource-intensive, requiring trained interviewers, multiple follow-up sessions, and heavy reliance on participant memory---all of which introduce substantial reporting burden and recall bias~\citep{subar2012asa24,kipnis2003structure,thompson2010need}.
+
+Automated, image-based nutrition estimation systems have emerged as a promising alternative, allowing users to photograph their meals rather than manually log every food item~\citep{zhu2010mobile,boushey2017new}.
+Despite this progress, the performance of such systems remains unstable in real-world settings, particularly for mixed dishes and visually complex meals~\citep{dalakleidi2022applying,shonkoff2023ai}.
+In many cases, a single food image does not provide sufficient information about ingredients, cooking methods, sauces, or portion details, causing the system to retrieve incorrect food entries and produce inaccurate nutritional estimates~\citep{tahir2021comprehensive}.
+
+Recent work has explored grounding visual food recognition in structured nutrition databases using large language models (LLMs).
+DietAI24~\citep{yan2025dietai24} combined multimodal LLMs with Retrieval-Augmented Generation (RAG) to match food images against the USDA FNDDS database~\citep{rhodes2023fndds}, enabling zero-shot estimation of 65 distinct nutrients without food-specific training data.
+However, DietAI24 operates in a fully automated, single-pass manner with no mechanism to resolve ambiguities that arise from visually similar items or occluded ingredients.
+When multiple foods share a similar appearance or when part of a meal is hidden, the retrieval pipeline is prone to error~\citep{dalakleidi2022applying,lo2020image}.
+
+In this work, we propose MIA24 (Multimodal Intelligent Agent-based 24-hour dietary assessment tool), which introduces an interactive \emph{clarification stage} between initial image understanding and nutrition database retrieval.
+Upon receiving a food image, the system generates targeted clarification questions about uncertain aspects of the meal---such as hidden ingredients, cooking methods, or portion sizes---and uses the responses to expand and refine the retrieval query.
+The central hypothesis is that such interactive query expansion improves retrieval precision for complex or composite dishes, ultimately reducing downstream nutrition estimation error.
+We evaluate MIA24 against the DietAI24 baseline on 70 Nutrition5k test images~\citep{thames2021nutrition5k} using GPT-4.1-mini, and show consistent improvements across all five nutritional metrics.
+
+% ════════════════════════════════════════════════════════════
+\section{Methods}
+\label{sec:methods}
+
+Both the baseline and proposed methods share a common retrieval-augmented architecture that grounds food recognition in the USDA FNDDS nutrition database~\citep{bodner2006fndds,ahuja2013usda,rhodes2023fndds}.
+The FNDDS collection (5,624 food entries) is indexed in a ChromaDB vector store using OpenAI \texttt{text-embedding-3-large} embeddings.
+All vision and chat inference is performed by GPT-4.1-mini.
+
+% ── 2.1 Baseline ───────────────────────────────────────────
+\subsection{DietAI24 Baseline}
+\label{sec:baseline}
+
+The DietAI24 baseline follows the single-pass, dish-level RAG pipeline described by Yan et al.\cite{yan2025dietai24}
+Given a food image, the pipeline proceeds through six sequential steps:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Food description.} A vision--language model generates a structured textual description of the food image, covering visible ingredients, preparation style, and other observable attributes.
+    \item \textbf{Query generation.} Five differently-worded search queries are generated from the description, each emphasizing a different aspect (e.g., main ingredient, cooking method, cuisine type).
+    \item \textbf{RAG search.} All queries (plus the original description) are embedded and used to search the ChromaDB FNDDS collection, retrieving the top-$k$ candidate food entries per query ($k{=}8$). Results are deduplicated by food code.
+    \item \textbf{Food code selection.} The vision model receives the original image alongside the candidate food code descriptions and selects the FNDDS 8-digit food codes that best match the visible food.
+    \item \textbf{Weight estimation.} For each selected food code, the vision model estimates the portion weight in grams, using FNDDS portion-size references when available.
+    \item \textbf{Nutrition calculation.} Per-100g FNDDS nutrient values are scaled to the estimated weights and summed across all selected food codes to produce the final prediction for mass, energy, fat, carbohydrate, and protein.
+\end{enumerate}
+
+A key design choice is that food code selection operates at the \emph{dish level}: the model matches the overall visible food to whole FNDDS entries rather than decomposing the dish into individual ingredients.
+
+% ── 2.2 Proposed Method ────────────────────────────────────
+\subsection{MIA24: Clarification-Augmented Retrieval}
+\label{sec:mia24}
+
+MIA24 extends the DietAI24 pipeline by inserting three additional steps between food description (Step~1) and RAG search (Step~3), creating a clarification stage that refines the retrieval query before database search:
+
+\begin{enumerate}[nosep]
+    \setcounter{enumi}{1}
+    \item[\textbf{2a.}] \textbf{Clarification question generation.} Given the initial food description, the LLM generates three targeted questions about aspects that are uncertain or ambiguous from the image alone. Questions focus on hidden or unclear ingredients (sauces, seasonings, fillings), cooking methods (fried vs.\ baked, oil type), portion-size details, specific food variants (whole wheat vs.\ white bread), and toppings or condiments not clearly visible.
+    \item[\textbf{2b.}] \textbf{User response.} The user answers the clarification questions, providing lightweight context that cannot be inferred from the image. During evaluation, a prompted LLM simulates user responses using ground-truth ingredient information and the food image, approximating realistic user interaction.
+    \item[\textbf{2c.}] \textbf{Query expansion.} The original description is combined with the clarification Q\&A pairs to produce an expanded, more precise food description. Five refined search queries are then generated from this enriched context.
+\end{enumerate}
+
+The remaining steps (RAG search, food code selection, weight estimation, nutrition calculation) proceed identically to DietAI24, but now operate on clarification-refined queries rather than queries derived solely from visual observation.
+The key insight is that many retrieval errors stem not from missing database entries but from ambiguous visual evidence---when a richer description is available, the vector search is more likely to surface the correct FNDDS entries.
+
+% ── 2.3 Experimental Setup ─────────────────────────────────
+\subsection{Experimental Setup}
+\label{sec:setup}
+
+\paragraph{Dataset.}
+We evaluate on a subset of the Nutrition5k dataset~\citep{thames2021nutrition5k}, which contains overhead RGB photographs of plated meals with per-dish ground-truth nutritional values.
+From the test split, we select 100 dish IDs; after filtering for available overhead images, 70 samples remain for evaluation.
+We limit the evaluation to this subset for cost effectiveness, as each sample requires multiple vision and chat API calls---the baseline pipeline involves at least six LLM invocations per image, and MIA24 adds three more for the clarification stage, making large-scale evaluation prohibitively expensive in terms of API token usage.
+
+\paragraph{Metrics.}
+Following prior work~\citep{yan2025dietai24}, we report Mean Absolute Error (MAE) for five nutritional targets:
+\begin{equation}
+\mathrm{MAE} = \frac{1}{n}\sum_{i=1}^{n} |y_i - \hat{y}_i|
+\end{equation}
+where $y_i$ is the ground truth and $\hat{y}_i$ is the predicted value for mass~(g), energy~(kcal), fat~(g), carbohydrate~(g), and protein~(g).
+
+\paragraph{Implementation details.}
+All vision and chat inference uses GPT-4.1-mini with temperature~0.
+Text embeddings use OpenAI \texttt{text-embedding-3-large}, consistent with the ChromaDB index.
+For each query, the top-8 most similar FNDDS entries are retrieved ($k{=}8$), and 5 query variations are generated per sample.
+The simulated user in MIA24 receives the initial food description, the food image, and ground-truth ingredient information to produce realistic clarification answers.
+
+% ════════════════════════════════════════════════════════════
+\section{Discussion}
+\label{sec:discussion}
+
+% ── 3.1 Results ────────────────────────────────────────────
+\subsection{Main Results}
+
+Table~\ref{tab:main_results} presents the MAE comparison between DietAI24 and MIA24 on 70 Nutrition5k test samples using GPT-4.1-mini.
+MIA24 achieves lower MAE than DietAI24 on all five nutritional metrics, with relative improvements ranging from 8.1\% (energy) to 23.4\% (protein).
+
+\begin{table}[H]
+\centering
+\caption{Mean Absolute Error (MAE) on 70 Nutrition5k test samples using GPT-4.1-mini. Lower is better. Best values in \textbf{bold}. Relative improvement of MIA24 over DietAI24 shown in the last column.}
+\label{tab:main_results}
+\vspace{0.5em}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{DietAI24} & \textbf{MIA24} & \textbf{Improvement} \\
+\midrule
+Mass (g)          & 103.71  & \textbf{90.40}   & 12.8\% \\
+Energy (kcal)     & 112.29  & \textbf{103.25}  & 8.1\%  \\
+Fat (g)           & 6.87    & \textbf{6.30}    & 8.3\%  \\
+Carbohydrate (g)  & 12.61   & \textbf{9.91}    & 21.4\% \\
+Protein (g)       & 10.37   & \textbf{7.94}    & 23.4\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The largest improvements appear for carbohydrate (21.4\%) and protein (23.4\%).
+These nutrients are often associated with ingredients that are difficult to identify visually---for example, whether bread is whole wheat or white, whether a protein source is fried or grilled, or whether hidden sauces contribute additional carbohydrates.
+The clarification stage directly addresses these ambiguities by eliciting information about cooking methods, hidden ingredients, and food variants.
+
+% ── 3.2 Retrieval Analysis ─────────────────────────────────
+\subsection{Retrieval Analysis}
+
+Table~\ref{tab:food_codes} shows the average number of FNDDS food codes selected per dish for each method.
+MIA24 consistently identifies more food codes per dish (2.11 vs.\ 1.31), suggesting that the clarification-expanded queries help the pipeline recognize additional food components that the baseline misses.
+
+\begin{table}[H]
+\centering
+\caption{Average number of FNDDS food codes selected per dish and error counts.}
+\label{tab:food_codes}
+\vspace{0.5em}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Statistic} & \textbf{DietAI24} & \textbf{MIA24} \\
+\midrule
+Avg food codes per dish & 1.31 & 2.11 \\
+Samples with errors     & 3    & 0    \\
+Total samples           & 70   & 70   \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This aligns with the design motivation: mixed-dish images often contain multiple food items (e.g., a plate with rice, grilled chicken, and salad), and the baseline tends to under-retrieve by mapping the entire plate to a single broad FNDDS entry.
+The clarification stage, by surfacing details about individual components (``Is there a sauce on the side?'' ``What type of grain is that?''), enables the query expansion step to generate more targeted searches that surface the correct individual entries.
+
+Additionally, MIA24 produces zero processing errors across all 70 samples, compared to 3 errors for DietAI24.
+The richer context from clarification appears to reduce edge cases where the model fails to parse its own output or selects invalid food codes.
+
+% ── 3.3 Comparison with Original DietAI24 Paper ────────────
+\subsection{Comparison with DietAI24 Paper}
+
+For reference, Table~\ref{tab:paper_comparison} compares our DietAI24 baseline MAE with the results reported in the original DietAI24 paper~\citep{yan2025dietai24}.
+
+\begin{table}[H]
+\centering
+\caption{Our DietAI24 baseline vs.\ the original paper. Differences are expected due to different test subsets, models, and sample sizes.}
+\label{tab:paper_comparison}
+\vspace{0.5em}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Metric} & \textbf{Paper} (1000 samples, GPT-4 Turbo) & \textbf{Ours} (70 samples, GPT-4.1-mini) \\
+\midrule
+Mass (g)          & 45.1  & 103.71 \\
+Energy (kcal)     & 68.2  & 112.29 \\
+Fat (g)           & 4.01  & 6.87   \\
+Carbohydrate (g)  & 5.98  & 12.61  \\
+Protein (g)       & 3.88  & 10.37  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Our baseline MAE values are higher than those in the original paper, which is expected for three reasons.
+First, the test subsets differ substantially: the original paper evaluates on 1,000 randomly sampled Nutrition5k dishes, while our evaluation uses a smaller 70-sample subset.
+Second, we use GPT-4.1-mini rather than GPT-4 Turbo, which may affect vision understanding and reasoning quality.
+Third, our 70-sample subset was selected from dishes with available overhead images after filtering, which may introduce selection effects.
+Crucially, the comparison between DietAI24 and MIA24 within our evaluation is controlled: both methods are evaluated on the same 70 images with the same model, isolating the contribution of the clarification stage.
+
+% ── 3.4 Limitations ────────────────────────────────────────
+\subsection{Limitations}
+
+Several limitations should be noted.
+First, user responses during evaluation are simulated by a prompted LLM rather than collected from real users, and the simulated user has access to ground-truth ingredient information.
+In a real deployment, user responses would be less precise, and the benefit of the clarification stage may be reduced.
+Second, the evaluation subset is relatively small (70 samples), which limits the statistical power of our comparison.
+Third, weight estimation remains a significant source of error for both methods---the clarification stage improves food \emph{identification} but does not directly address weight estimation inaccuracies.
+Finally, the additional LLM calls introduced by the clarification stage (question generation, user simulation, query expansion) increase inference cost and latency, which may be a concern in real-time deployment scenarios.
+
+% ════════════════════════════════════════════════════════════
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented MIA24, a retrieval-based dietary assessment agent that augments standard image-to-nutrition pipelines with an interactive clarification stage.
+By generating targeted questions about uncertain food aspects and using the responses to expand retrieval queries, MIA24 reduces nutrition estimation error across all five metrics compared to the DietAI24 baseline.
+The improvements are most pronounced for carbohydrate (21.4\%) and protein (23.4\%), nutrients whose estimation depends heavily on ingredients that are often not visible in food photographs.
+Our retrieval analysis further shows that MIA24 identifies more food codes per dish, suggesting that the clarification mechanism helps the pipeline decompose complex meals more accurately.
+
+These results support the hypothesis that many retrieval errors in image-based nutrition estimation arise from visual ambiguity rather than database coverage gaps, and that even lightweight user interaction can substantially improve retrieval precision.
+Future work should evaluate MIA24 with real user responses, extend the evaluation to larger and more diverse datasets, and explore ways to reduce the additional inference cost of the clarification stage.
+
+% ════════════════════════════════════════════════════════════
+\bibliographystyle{unsrt}
+\bibliography{ref}
+
+\end{document}

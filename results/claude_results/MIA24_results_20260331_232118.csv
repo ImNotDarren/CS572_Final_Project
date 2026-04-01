@@ -1,0 +1,145 @@
+dish_id,method,gt_mass_g,gt_calories,gt_fat_g,gt_carb_g,gt_protein_g,pred_mass_g,pred_calories,pred_fat_g,pred_carb_g,pred_protein_g,ae_mass_g,ae_calories,ae_fat_g,ae_carb_g,ae_protein_g,num_food_codes,food_codes,description,error
+dish_1557862696,MIA24,77.00,19.25,0.23,3.85,1.39,80.00,36.80,2.05,4.02,1.56,3.00,17.55,1.82,0.17,0.17,1,75214028,"The image shows the food category of cooked white rice, partially eaten, with some browned/toasted portions visible on top.
+
+Additional details include served in a small white bowl or dish; placed on ",
+dish_1558031351,MIA24,41.00,12.30,0.04,3.12,0.25,75.00,22.50,0.11,5.66,0.46,34.00,10.20,0.07,2.55,0.21,1,63149010,"The image shows the food category of **watermelon chunks** — fresh, seedless red watermelon cut into small bite-sized pieces.
+
+Additional details include: served on a white square plate; appears to be",
+dish_1558110436,MIA24,69.00,85.63,0.14,20.29,1.10,120.00,108.00,0.18,24.76,2.40,51.00,22.37,0.04,4.47,1.30,1,73403010,"The image shows the food category of roasted or baked sweet potato chunks, served on a small white paper plate with what appears to be a light-colored sauce or liquid (possibly milk or cream).
+
+Additi",
+dish_1558113477,MIA24,50.00,289.05,24.75,11.35,11.20,186.00,353.94,25.47,13.73,21.11,136.00,64.89,0.72,2.38,9.91,2,42101000;11411400,"The image shows the food category of **almonds** (whole, raw-appearing, skin-on) served in a small white bowl, with a white liquid (likely milk or yogurt) visible at the bottom of the bowl.
+
+Additiona",
+dish_1558114086,MIA24,143.00,74.36,0.29,0.43,20.02,165.00,100.65,0.25,24.42,0.28,22.00,26.29,0.04,23.99,19.74,1,63101000,"The image shows the food category of a fresh apple, red and green in color, whole and uncut, placed in a white bowl.
+
+Additional details include small size suggesting it may be a Fuji or Gala variety;",
+dish_1558373008,MIA24,73.00,251.56,19.93,3.07,14.09,0.00,0.00,0.00,0.00,0.00,73.00,251.56,19.93,3.07,14.09,0,,"The image shows the food category of dates (whole, dried fruit), appearing to be Medjool or similar variety based on their large size and dark brown, glossy skin. Additional details include approximat",No valid food codes found
+dish_1558376734,MIA24,60.00,206.76,16.38,2.52,11.58,105.00,341.25,28.61,1.49,19.46,45.00,134.49,12.23,1.03,7.88,1,25221405,"The image shows the food category of dates (dried fruit), appearing as whole and halved pieces with a dark brown, wrinkled skin and soft interior, served on a small white plate.
+
+Additional details in",
+dish_1558376768,MIA24,143.00,74.36,0.29,0.43,20.02,182.00,111.02,0.27,26.94,0.31,39.00,36.66,0.01,26.51,19.71,1,63101000,"The image shows the food category of a whole fresh apple, red and green in color, placed in a white bowl.
+Additional details include uncut and unpeeled presentation; not specified subcategory as to va",
+dish_1558546434,MIA24,11.00,2.53,0.04,0.40,0.32,30.00,8.10,0.19,0.72,0.85,19.00,5.57,0.14,0.33,0.54,1,72125100,"The image shows the food category of fresh baby spinach leaves, served plain on a white square plate.
+Additional details include raw preparation; small, whole leaves with stems visible; not specified ",
+dish_1558630288,MIA24,11.00,7.11,0.37,0.35,0.67,20.00,3.40,0.06,0.53,0.32,9.00,3.71,0.32,0.17,0.35,1,75114000,"The image shows the food category of mixed salad greens, including visible green and red/purple lettuce leaves, likely a spring mix or mesclun blend.
+
+Additional details include fresh, uncooked leafy ",
+dish_1558630325,MIA24,269.00,751.54,58.08,46.56,27.08,242.00,349.78,21.32,34.39,9.73,27.00,401.76,36.76,12.17,17.35,3,42101000;75114000;63101000,"The image shows the food category of a mixed plate containing whole raw almonds, fresh mixed salad greens (including green and red leaf varieties), and a whole apple (showing red and yellow/green colo",
+dish_1558635489,MIA24,74.00,78.51,1.78,16.28,2.29,110.00,94.60,1.49,20.50,3.59,36.00,16.09,0.29,4.22,1.29,1,75216111,"The image shows the food category of corn on the cob, specifically two cross-sectional slices of yellow corn, viewed from the cut end, revealing the cob and kernel arrangement.
+
+Additional details inc",
+dish_1558639526,MIA24,78.00,31.98,0.16,7.80,0.70,120.00,108.00,3.22,20.02,1.08,42.00,76.02,3.06,12.22,0.38,1,73102241,"The image shows the food category of cooked carrots, specifically sliced and baby carrots that appear to be glazed or sautéed, with a shiny coating visible on the surface.
+
+Additional details include ",
+dish_1558641287,MIA24,64.00,11.52,0.13,2.50,0.58,144.00,28.80,0.45,5.82,1.18,80.00,17.28,0.32,3.32,0.60,2,74101000;74101000,"The image shows the food category of cherry tomatoes (specifically grape tomatoes, small oval-shaped red tomatoes).
+
+Additional details include raw, uncut preparation; approximately 9 individual tomat",
+dish_1559157919,MIA24,39.00,37.09,3.33,1.52,0.99,150.00,93.95,3.08,12.15,4.84,111.00,56.86,0.25,10.62,3.85,3,75113080;75147000;63311000,"The image shows the food category of a mixed green salad, including baby spinach leaves, arugula, fresh blueberries, and what appears to be a small amount of chopped walnuts.
+
+Additional details inclu",
+dish_1559239256,MIA24,128.00,60.16,0.13,15.36,1.15,85.00,45.05,0.26,11.34,0.69,43.00,15.11,0.14,4.02,0.46,1,61100600,"The image shows the food category of a whole mandarin orange (clementine or tangerine), unpeeled, with a small stem end visible, placed on a white square plate.
+
+Additional details include fresh, raw ",
+dish_1560203400,MIA24,104.00,293.28,12.48,33.28,12.48,102.00,276.42,11.61,30.27,12.68,2.00,16.86,0.87,3.01,0.20,1,58106514,"The image shows the food category of **pepperoni pizza — a single square/rectangular slice with melted mozzarella cheese, tomato sauce, and four large pepperoni slices on a thin crust**.
+
+Additional d",
+dish_1560526514,MIA24,224.00,183.25,8.40,26.03,3.42,294.00,276.36,9.81,39.32,8.66,70.00,93.11,1.41,13.29,5.24,3,75147000;63311000;71104070,"The image shows the food category of a mixed green salad with fruit, featuring spinach leaves, mixed greens (including red leaf lettuce), sliced strawberries, blueberries, and pineapple chunks, served",
+dish_1560526552,MIA24,319.00,359.24,21.78,28.02,14.59,445.00,589.96,37.31,43.26,21.54,126.00,230.72,15.52,15.24,6.95,5,32130020;71403040;63141010;63223020;75147000,"The image shows the food category of a mixed breakfast/brunch plate, including scrambled eggs, roasted home fries (diced potatoes), fresh fruit (pineapple chunks and strawberries), and a mixed green s",
+dish_1560801797,MIA24,96.00,25.66,0.70,4.11,1.34,96.00,70.00,2.11,12.12,1.51,0.00,44.34,1.41,8.01,0.17,3,71104130;75107000;73303010,"The image shows the food category of mixed small food portions, including what appears to be roasted or fried potato wedges, raw cauliflower florets, and a small piece of dark-colored food (possibly a",
+dish_1560801883,MIA24,315.00,512.11,22.15,34.63,42.56,307.00,547.50,21.44,42.13,45.93,8.00,35.39,0.70,7.50,3.37,5,58106555;24122171;71104070;75219021;22400100,"The image shows the food category of a mixed plate meal, including pepperoni pizza, roasted/grilled chicken, roasted potatoes, cauliflower, sautéed mushrooms, and what appears to be sliced pork or tur",
+dish_1560975628,MIA24,296.00,348.27,12.46,32.35,27.61,1255.00,1497.74,74.37,128.56,80.39,959.00,1149.47,61.90,96.21,52.77,9,72116150;58130320;72201211;41812500;72116150;58130320;72201211;58161492;41812500,"The image shows the food category of a mixed plate meal, including: a green salad with lettuce and dressing (likely Caesar salad), a slice of lasagna or baked pasta with melted cheese and tomato sauce",
+dish_1561393764,MIA24,182.00,280.80,20.10,5.52,19.07,274.00,457.92,33.77,9.79,27.80,92.00,177.12,13.68,4.26,8.73,3,32130120;22601000;72201223,"The image shows the food category of a breakfast plate consisting of scrambled eggs, crispy bacon strips, and roasted broccoli florets.
+
+Additional details include home-style plating on a white square",
+dish_1561405356,MIA24,176.00,206.65,4.20,7.50,33.41,251.00,326.39,10.83,18.44,36.65,75.00,119.74,6.64,10.94,3.24,4,24123311;72201190;75113080;74403000,"The image shows the food category of a grilled or baked chicken breast dish, sliced and topped with a chunky sauce containing visible red pepper flakes or chili pieces, served alongside steamed brocco",
+dish_1561405411,MIA24,282.00,332.06,8.51,25.68,37.23,280.00,353.20,6.91,29.56,40.51,2.00,21.14,1.60,3.89,3.28,3,56207160;24122161;75113080,"The image shows the food category of a grain and greens salad, featuring yellow couscous, arugula, chickpeas, red bell pepper pieces, broccoli, and what appears to be a piece of grilled or baked chick",
+dish_1561574815,MIA24,89.00,74.85,6.64,3.25,1.65,174.00,90.48,5.95,8.87,2.49,85.00,15.63,0.69,5.63,0.83,1,75143100,"The image shows the food category of **garden salad**, including mixed greens (romaine and red leaf lettuce), cherry tomatoes, red onion slices, cucumber, and what appears to be crumbled cheese (possi",
+dish_1561578839,MIA24,214.00,362.15,14.81,43.35,14.90,664.00,1073.04,56.32,72.36,68.42,450.00,710.89,41.51,29.00,53.52,5,58130015;72201223;75113080;58130015;72201223,"The image shows the food category of a plated meal consisting of lasagna (with visible tomato sauce and melted cheese topping), a green salad (arugula/mixed greens with black olives), and roasted vege",
+dish_1561661324,MIA24,75.00,33.00,1.57,3.23,2.40,60.00,45.60,2.14,4.07,2.54,15.00,12.60,0.57,0.84,0.14,1,72116150,"The image shows the food category of **Caesar salad**, including chopped romaine lettuce, shaved or grated Parmesan cheese, and what appears to be Caesar dressing coating the leaves.
+
+Additional detai",
+dish_1561662160,MIA24,36.00,41.84,3.38,2.75,0.63,94.00,19.74,0.22,3.86,1.18,58.00,22.10,3.16,1.11,0.54,1,75143000,"The image shows the food category of mixed green salad, including red bell pepper pieces, dark leafy greens (such as red leaf lettuce or radicchio), lighter green lettuce, what appears to be couscous ",
+dish_1561667238,MIA24,165.00,268.80,12.34,15.25,23.48,339.00,489.04,16.53,27.75,53.41,174.00,220.24,4.18,12.50,29.93,3,22400100;56205001;72116150,"The image shows the food category of a mixed plate meal, including sliced roasted or grilled meat (likely pork), white rice, a Caesar salad with croutons and romaine lettuce, and what appears to be ad",
+dish_1561741063,MIA24,135.00,132.30,5.80,4.59,14.85,170.00,139.40,3.91,7.33,18.70,35.00,7.10,1.90,2.74,3.85,1,14204010,"The image shows the food category of **cottage cheese**, characterized by its white, lumpy, curd-like texture served in a white bowl.
+
+Additional details include **served plain with no visible topping",
+dish_1561741090,MIA24,221.00,161.54,5.98,11.47,15.54,353.00,195.86,3.22,30.84,13.56,132.00,34.32,2.75,19.37,1.98,2,63133010;14204010,"The image shows the food category of cantaloupe chunks served over what appears to be cottage cheese or rice, presented in a white bowl.
+
+Additional details include fresh, uncooked cantaloupe cut into",
+dish_1562009810,MIA24,108.00,119.88,0.97,24.84,2.81,240.00,254.40,0.60,55.54,5.28,132.00,134.52,0.37,30.70,2.47,2,58160470;58160470,"The image shows the food category of **fried rice**, with visible grains of cooked rice that appear lightly browned, with small orange bits (likely carrots or similar vegetables) mixed in.
+
+Additional",
+dish_1562168648,MIA24,32.00,41.59,2.23,4.92,1.02,60.00,7.80,0.13,1.36,0.80,28.00,33.79,2.10,3.57,0.23,2,75113060;75113060,"The image shows the food category of **salad greens**, specifically a small portion of loose-leaf lettuce with visible green and slightly reddish-brown leaf edges, served plain on a white square plate",
+dish_1562168800,MIA24,242.00,237.52,9.34,36.31,3.83,429.00,313.34,8.32,56.48,5.99,187.00,75.82,1.02,20.17,2.17,4,71104070;63127010;63311000;75143000,"The image shows the food category of a mixed plate meal, including roasted potato wedges, fresh strawberries, fresh blueberries, cubed honeydew melon, and green leaf lettuce.
+
+Additional details inclu",
+dish_1562617703,MIA24,110.00,179.63,6.49,26.95,4.51,0.00,0.00,0.00,0.00,0.00,110.00,179.63,6.49,26.95,4.51,0,,"The image shows the food category of [chips or crackers with a dip, possibly tortilla chips with a chocolate or caramel-based dip, served in a small white bowl].
+
+I can't help to analyze this image.
+
+",Image analysis failed
+dish_1562691032,MIA24,415.00,419.68,22.04,39.06,17.95,682.00,798.80,48.40,56.16,36.91,267.00,379.12,26.36,17.10,18.96,6,32130020;71104130;72201223;63223020;63203010;63141010,"The image shows the food category of a breakfast plate, including scrambled eggs, roasted home fries (potato chunks with what appears to be a sauce or seasoning), roasted broccoli, fresh strawberries,",
+dish_1562703447,MIA24,259.00,384.43,17.96,37.65,18.51,116.00,193.16,9.14,19.39,8.73,143.00,191.27,8.81,18.26,9.78,2,58107212;75113080,"The image shows the food category of a mixed green salad with arugula, cherry tomatoes, and a small slice of pizza or flatbread topped with melted cheese and vegetables.
+
+Additional details include: t",
+dish_1562774099,MIA24,40.00,51.99,2.79,6.16,1.28,70.00,11.90,0.20,1.84,1.13,30.00,40.09,2.59,4.32,0.15,1,75114000,"The image shows the food category of **garden salad**, consisting of mixed salad greens including green and red/purple lettuce leaves, lightly dressed with what appears to be a vinaigrette or light dr",
+dish_1562788568,MIA24,230.00,289.20,11.74,46.92,11.43,388.00,412.22,9.60,62.29,22.13,158.00,123.02,2.13,15.37,10.70,3,58161504;75216135;27150310,"The image shows the food category of a mixed grain and vegetable rice dish with corn on the cob and a piece of baked or fried chicken, featuring red/brown rice mixed with carrots, leafy greens (arugul",
+dish_1563218408,MIA24,87.00,245.34,10.44,27.84,10.44,288.00,771.84,28.94,91.67,36.29,201.00,526.50,18.50,63.83,25.85,1,58106516,"The image shows the food category of **pizza rolls or pizza bites**, with visible toppings of pepperoni and melted cheese over tomato sauce, served in a metal bowl.
+
+Additional details include: baked ",
+dish_1563294987,MIA24,18.00,97.38,7.56,0.25,6.66,16.00,74.88,5.61,0.27,5.43,2.00,22.50,1.95,0.02,1.23,1,22601000,"The image shows the food category of **cooked bacon** — crispy, pan-fried or oven-cooked strips with a caramelized, reddish-brown appearance.
+
+Additional details include: high fat and high sodium cont",
+dish_1563295016,MIA24,79.00,127.88,7.62,8.18,6.96,129.00,164.82,8.55,14.18,8.71,50.00,36.94,0.93,6.00,1.74,2,22601000;63141010,"The image shows the food category of **bacon strips and fresh pineapple chunks**, served together on a white square plate. Additional details include cooked/crispy bacon with a caramelized, browned ap",
+dish_1563295044,MIA24,158.00,241.98,12.17,25.85,7.93,294.00,431.82,26.22,39.55,11.38,136.00,189.84,14.05,13.71,3.45,3,22601040;71403500;63141010,"The image shows the food category of a breakfast plate containing bacon, roasted potato and sweet potato hash, and fresh pineapple chunks.
+
+Additional details include pan-fried or baked bacon with a c",
+dish_1563551194,MIA24,400.00,471.64,14.05,57.67,27.84,518.00,813.47,34.97,100.73,28.00,118.00,341.83,20.93,43.05,0.16,5,56200510;32400075;71403040;51180010;14301010,"The image shows the food category of a breakfast plate, including what appears to be oatmeal or grain porridge topped with banana slices and red fruit pieces, scrambled eggs, roasted or sautéed diced ",
+dish_1563909469,MIA24,64.00,72.40,6.91,2.25,1.36,37.00,31.08,1.88,0.77,2.60,27.00,41.32,5.03,1.48,1.23,1,75147000,"The image shows the food category of **spinach salad**, featuring fresh baby spinach leaves, sliced white onion, and what appears to be small pieces of a light-colored ingredient (possibly cheese or h",
+dish_1563984167,MIA24,608.00,291.68,1.22,14.18,48.29,240.00,110.10,0.19,11.74,15.27,368.00,181.58,1.03,2.44,33.02,2,32400080;63109010,"The image shows the food category of scrambled egg whites with cubed cantaloupe on the side, served on a white plate.
+
+Additional details include egg whites that appear to be cooked and chopped or scr",
+dish_1564427455,MIA24,218.00,354.26,23.96,4.21,31.22,276.00,243.60,10.78,8.51,28.19,58.00,110.66,13.18,4.30,3.03,3,24123301;74101000;75510020,"The image shows the food category of a salad bowl containing cherry tomatoes (red and orange), kalamata olives, and cubed cooked chicken breast.
+
+Additional details include fresh preparation style; se",
+dish_1564428102,MIA24,107.00,133.22,12.71,4.45,2.43,60.00,15.00,0.40,2.19,1.55,47.00,118.22,12.31,2.26,0.88,2,75113080;75113080,"The image shows the food category of **arugula salad**, featuring fresh arugula (rocket) leaves as the primary ingredient, with what appears to be small pieces of a light-colored ingredient (possibly ",
+dish_1564428181,MIA24,320.00,510.05,32.32,20.96,34.31,215.00,372.25,17.59,8.48,42.59,105.00,137.80,14.73,12.48,8.29,2,24127500;75113080,"The image shows the food category of a plated meal consisting of two components: a green salad made with arugula and what appears to be shaved parmesan or similar cheese, alongside a protein dish that",
+dish_1564675380,MIA24,23.00,87.33,6.46,0.71,6.69,48.00,224.64,16.84,0.82,16.28,25.00,137.31,10.38,0.10,9.59,2,22601000;22601000,"The image shows the food category of **cooked bacon strips** — dark, crispy, and fully cooked with a deep reddish-brown color.
+
+Additional details include **well-done/crispy preparation level**; **sin",
+dish_1564687046,MIA24,308.00,374.79,29.07,20.46,33.69,415.00,495.70,22.66,12.58,62.04,107.00,120.91,6.41,7.88,28.36,3,21101160;27150310;75205044,"The image shows the food category of a plated meal consisting of sliced beef steak with a tomato-based sauce, a second protein (possibly a braised or baked meat with the same tomato sauce), and a side",
+dish_1564689219,MIA24,474.00,506.85,28.08,44.73,27.23,445.00,493.10,12.63,67.94,30.93,29.00,13.75,15.45,23.22,3.69,5,41102080;41302080;41420010;75114000;52215200,"The image shows the food category of a mixed green salad with multiple toppings, including cubed tofu, chickpeas, black lentils, mixed salad greens (spinach, arugula, and other leafy greens), shredded",
+dish_1564773826,MIA24,56.00,10.08,0.11,2.18,0.50,96.00,19.20,0.30,3.88,0.79,40.00,9.12,0.19,1.69,0.28,2,74101000;74101000,"The image shows the food category of cherry tomatoes (specifically grape tomatoes, small elongated red and orange varieties).
+
+Additional details include raw, uncooked preparation; served on a plain w",
+dish_1565020796,MIA24,99.00,90.60,3.54,0.75,12.06,82.00,109.20,5.61,1.82,12.47,17.00,18.60,2.07,1.07,0.41,2,32400080;22601000,"The image shows the food category of scrambled eggs (crumbled/chopped style) and bacon strips, served together on a white plate.
+
+Additional details include home-cooked preparation; bacon appears cris",
+dish_1565020895,MIA24,416.00,348.13,10.23,43.38,20.96,266.00,379.18,19.20,37.19,17.17,150.00,31.05,8.96,6.19,3.79,6,63219000;63201010;71104070;22601000;11411400;43108010,"The image shows the food category of a mixed breakfast plate, including fresh raspberries, blackberries, roasted sweet potato cubes, crispy bacon strips, cottage cheese, chia pudding topped with grape",
+dish_1565035858,MIA24,531.00,375.23,6.71,23.68,55.42,1048.00,661.76,10.90,54.93,88.53,517.00,286.53,4.19,31.26,33.11,7,24122131;75214011;63149010;75113080;24122131;75214011;63149010,"The image shows the food category of a mixed plate meal, including diced cooked chicken breast, steamed cauliflower florets, cherry tomatoes, sliced green banana peppers, sliced red onion, and cubed w",
+dish_1565117429,MIA24,147.00,390.87,13.82,49.25,16.46,291.00,765.33,32.21,83.81,34.66,144.00,374.46,18.40,34.56,18.19,1,58106200,"The image shows the food category of **pizza slices** — specifically, cheese pizza with a thin crust, tomato sauce, and melted mozzarella cheese, cut into rectangular/square pieces and served on a whi",
+dish_1565118700,MIA24,49.00,16.66,0.22,3.11,1.25,50.00,22.90,0.08,5.41,0.56,1.00,6.24,0.14,2.30,0.69,2,75500210;75114000,"The image shows the food category of a small green salad with chopped dark red beets and mixed greens, including what appears to be spinach or arugula leaves with visible seeds or dressing.
+
+Additiona",
+dish_1565638599,MIA24,279.00,368.70,15.76,23.10,32.86,450.00,486.70,19.13,50.11,29.44,171.00,118.00,3.37,27.01,3.42,3,75202027;24127500;58161484,"The image shows the food category of a mixed plate meal, including sautéed asparagus spears, grilled or baked chicken pieces (appearing seasoned with a reddish coating), and a grain side dish that app",
+dish_1565711498,MIA24,229.00,246.83,15.96,10.57,16.58,220.00,229.40,14.16,11.99,16.34,9.00,17.43,1.79,1.42,0.24,2,32130060;75209021,"The image shows the food category of scrambled eggs paired with roasted Brussels sprouts, served on a white square plate.
+
+Additional details include home-cooked preparation style; the scrambled eggs ",
+dish_1565711570,MIA24,324.00,603.83,41.26,34.24,26.62,454.00,720.22,47.52,42.68,33.71,130.00,116.39,6.27,8.44,7.09,4,32130060;71405010;22601000;75209021,"The image shows the food category of a American breakfast plate, including scrambled eggs, hash browns, bacon strips, and roasted Brussels sprouts.
+
+Additional details include home-cooked preparation ",
+dish_1565811139,MIA24,416.00,902.20,62.63,9.06,74.73,300.00,186.00,4.05,8.22,30.66,116.00,716.20,58.58,0.84,44.07,1,27446300,"The image shows the food category of a fresh salad, featuring baby spinach leaves as the base, topped with shredded carrots, broccoli florets, crumbled feta cheese, and chopped cooked chicken.
+
+Additi",
+dish_1565898331,MIA24,100.00,155.99,6.52,4.59,18.11,95.00,114.00,2.54,20.04,2.54,5.00,41.99,3.98,15.44,15.58,1,58161474,"The image shows the food category of a grain and greens dish, featuring cooked rice or risotto mixed with sautéed mushrooms and fresh spinach leaves.
+
+Additional details include a small serving portio",
+dish_1566501575,MIA24,54.00,251.69,15.55,26.89,3.35,378.00,453.60,10.05,80.59,9.34,324.00,201.91,5.50,53.70,5.99,1,58161504,"The image shows the food category of a mixed salad or grain bowl, featuring shredded or flaked protein (likely canned tuna or shredded chicken), shredded carrots, cherry tomatoes, and what appears to ",
+dish_1566850031,MIA24,662.00,616.77,19.20,25.78,84.64,900.00,1683.00,117.81,35.46,124.29,238.00,1066.23,98.61,9.68,39.65,2,27446240;27446240,"The image shows the food category of a chicken salad being prepared, with key visible ingredients including chopped cooked chicken, cherry tomatoes, shredded carrots, sliced red onion, and a creamy wh",
+dish_1566850099,MIA24,112.00,113.06,10.69,4.14,1.53,94.00,19.74,0.22,3.86,1.18,18.00,93.32,10.47,0.28,0.35,1,75143000,"The image shows the food category of a garden salad, including mixed greens, broccoli florets, shredded carrots, and what appears to be red cabbage or beet greens, with possible white beans or chickpe",
+dish_1566850142,MIA24,284.00,464.95,31.75,9.05,35.23,440.00,562.60,29.36,39.20,34.75,156.00,97.65,2.39,30.15,0.47,3,27120030;75141000;75143000,"The image shows the food category of a mixed plate meal, including pulled or shredded meat (possibly pork or chicken) mixed with coleslaw-style shredded carrots and cabbage on the left side, and a gre",
+dish_1566851616,MIA24,248.00,300.78,11.60,36.14,14.51,477.00,711.60,33.56,65.24,38.31,229.00,410.82,21.95,29.10,23.80,3,58106234;27446362;72201190,"The image shows the food category of a combination meal including Caesar salad (with romaine lettuce, croutons, shaved Parmesan cheese, and Caesar dressing), steamed broccoli florets, and a slice of c",
+dish_1566920339,MIA24,730.00,449.53,5.04,32.09,58.56,510.00,387.80,0.39,69.98,27.46,220.00,61.73,4.66,37.89,31.10,3,73403010;71104120;31108110,"The image shows the food category of roasted sweet potatoes and boiled/steamed cauliflower, served together on a white plate.
+
+Additional details include home-prepared appearance; sweet potatoes are c",
