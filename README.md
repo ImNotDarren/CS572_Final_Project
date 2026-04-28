@@ -213,6 +213,28 @@ python run_evaluation.py --max-samples 3
 python run_evaluation.py --max-samples 1 --log-level DEBUG
 ```
 
+## Running the Demo
+
+An interactive web UI that lets you upload a food image and step through the MIA24 pipeline visually.
+
+```bash
+conda activate mia24
+pip install fastapi uvicorn python-multipart
+
+# From the project root:
+python demo/app.py
+```
+
+Then open http://localhost:8000 in your browser.
+
+**How it works:**
+
+1. Upload a food image
+2. Click through each pipeline stage: Describe → Clarify → Expand → Retrieve → Select → Weight → Nutrition
+3. Each step shows the intermediate LLM output so you can see how the clarification stage refines the query
+
+**Requirements:** The same `.env` variables as the evaluation (`OPENAI_API_KEY`, `CHROMA_URL`). The demo uses the OpenAI provider by default.
+
 ## Methods
 
 ### DietAI24 (Baseline)
